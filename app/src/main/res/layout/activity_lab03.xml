@@ -7,7 +7,7 @@
     android:padding="16dp"
     android:useDefaultMargins="true"
     android:background="#FFFFFF"
-    android:columnCount="4"
-    android:rowCount="4"
+    android:columnCount="6"
+    android:rowCount="6"
     tools:context="pl.wsei.pam.lab03.Lab03Activity">
 </GridLayout>

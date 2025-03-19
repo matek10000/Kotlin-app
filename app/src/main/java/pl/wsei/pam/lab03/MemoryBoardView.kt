@@ -32,7 +32,15 @@ class MemoryBoardView(
         R.drawable.baseline_attach_money_24,
         R.drawable.baseline_camera_24,
         R.drawable.baseline_coffee_maker_24,
-        R.drawable.baseline_content_cut_24
+        R.drawable.baseline_content_cut_24,
+        R.drawable.baseline_hail_24,
+        R.drawable.baseline_hive_24,
+        R.drawable.baseline_icecream_24,
+        R.drawable.baseline_import_contacts_24,
+        R.drawable.baseline_house_24,
+        R.drawable.baseline_ice_skating_24,
+        R.drawable.baseline_image_24,
+        R.drawable.baseline_insert_comment_24
     )
 
     init {
