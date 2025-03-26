@@ -15,10 +15,13 @@ import java.time.format.DateTimeFormatter
 
 @Composable
 fun TodoListItem(item: TodoTask, modifier: Modifier = Modifier) {
+    val statusColor = if (item.isDone) Color(0xFF2E7D32) else Color(0xFFB71C1C) // Zielony lub czerwony
+    val statusText = if (item.isDone) "✓" else "X"
+
     ElevatedCard(
         modifier = modifier
             .fillMaxWidth()
-            .heightIn(120.dp)
+            .heightIn(min = 120.dp)
             .padding(8.dp),
         elevation = CardDefaults.cardElevation(4.dp),
         colors = CardDefaults.cardColors(containerColor = Color(0xF5F5F9FF))
@@ -58,10 +61,15 @@ fun TodoListItem(item: TodoTask, modifier: Modifier = Modifier) {
                 Box(
                     modifier = Modifier
                         .size(40.dp)
-                        .background(Color(0xFFB71C1C), shape = CircleShape),
+                        .background(statusColor, shape = CircleShape),
                     contentAlignment = Alignment.Center
                 ) {
-                    Text("X", color = Color.Black, textAlign = TextAlign.Center, fontSize = 20.sp)
+                    Text(
+                        text = statusText,
+                        color = Color.White,
+                        textAlign = TextAlign.Center,
+                        fontSize = 20.sp
+                    )
                 }
             }
         }
