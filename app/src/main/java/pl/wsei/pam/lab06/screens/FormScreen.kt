@@ -13,17 +13,21 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import pl.wsei.pam.lab06.TodoApplication
 import pl.wsei.pam.lab06.components.AppTopBar
 import pl.wsei.pam.lab06.data.Priority
-import pl.wsei.pam.lab06.data.TodoRepository
 import pl.wsei.pam.lab06.data.TodoTask
-import java.time.*
+import java.time.Instant
+import java.time.LocalDate
+import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun FormScreen(navController: NavController) {
     val context = LocalContext.current
+
+    val todoRepository = (context.applicationContext as TodoApplication).container.todoRepository
 
     var title by remember { mutableStateOf("") }
     var isDone by remember { mutableStateOf(false) }
@@ -142,7 +146,7 @@ fun FormScreen(navController: NavController) {
                         isDone = isDone,
                         priority = selectedPriority
                     )
-                    TodoRepository.addTask(newTask)
+                    todoRepository.addTask(newTask)
                     Toast.makeText(context, "Zapisano zadanie", Toast.LENGTH_SHORT).show()
                     navController.navigate("list")
                 },
@@ -150,7 +154,6 @@ fun FormScreen(navController: NavController) {
             ) {
                 Text("Zapisz zadanie")
             }
-
         }
     }
 }

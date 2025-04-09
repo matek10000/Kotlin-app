@@ -8,15 +8,19 @@ import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import pl.wsei.pam.lab06.TodoApplication
 import pl.wsei.pam.lab06.components.AppTopBar
-import pl.wsei.pam.lab06.data.TodoRepository
 import pl.wsei.pam.lab06.data.TodoListItem
+import pl.wsei.pam.lab06.data.TodoTask
 
 @Composable
 fun ListScreen(navController: NavController) {
-    val tasks = TodoRepository.getTasks()
+    val context = LocalContext.current
+    val todoRepository = (context.applicationContext as TodoApplication).container.todoRepository
+    val tasks: List<TodoTask> = todoRepository.getTasks()
 
     Scaffold(
         topBar = {
