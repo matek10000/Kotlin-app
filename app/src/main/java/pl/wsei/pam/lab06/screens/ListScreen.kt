@@ -6,21 +6,22 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.*
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
-import pl.wsei.pam.lab06.TodoApplication
 import pl.wsei.pam.lab06.components.AppTopBar
-import pl.wsei.pam.lab06.data.TodoListItem
-import pl.wsei.pam.lab06.data.TodoTask
+import pl.wsei.pam.lab06.components.TodoListItem
+import pl.wsei.pam.lab06.viewmodel.AppViewModelProvider
+import pl.wsei.pam.lab06.data.viewmodel.ListViewModel
 
 @Composable
-fun ListScreen(navController: NavController) {
-    val context = LocalContext.current
-    val todoRepository = (context.applicationContext as TodoApplication).container.todoRepository
-    val tasks: List<TodoTask> = todoRepository.getTasks()
+fun ListScreen(
+    navController: NavController,
+    viewModel: ListViewModel = viewModel(factory = AppViewModelProvider.Factory)
+) {
+    val listUiState by viewModel.listUiState.collectAsState()
 
     Scaffold(
         topBar = {
@@ -32,12 +33,9 @@ fun ListScreen(navController: NavController) {
             )
         },
         floatingActionButton = {
-            FloatingActionButton(
-                onClick = { navController.navigate("form") },
-                content = {
-                    Icon(Icons.Filled.Add, contentDescription = "Add task")
-                }
-            )
+            FloatingActionButton(onClick = { navController.navigate("form") }) {
+                Icon(Icons.Filled.Add, contentDescription = "Dodaj zadanie")
+            }
         }
     ) { padding ->
         LazyColumn(
@@ -45,7 +43,7 @@ fun ListScreen(navController: NavController) {
                 .padding(padding)
                 .padding(16.dp)
         ) {
-            items(tasks) { task ->
+            items(items = listUiState.items, key = { it.id }) { task ->
                 TodoListItem(item = task)
             }
         }

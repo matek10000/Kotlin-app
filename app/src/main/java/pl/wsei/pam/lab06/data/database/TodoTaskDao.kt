@@ -1,7 +1,8 @@
-package pl.wsei.pam.lab01.data
+package pl.wsei.pam.lab06.data.database
 
 import androidx.room.*
 import kotlinx.coroutines.flow.Flow
+import pl.wsei.pam.lab06.data.model.TodoTask
 
 @Dao
 interface TodoTaskDao {

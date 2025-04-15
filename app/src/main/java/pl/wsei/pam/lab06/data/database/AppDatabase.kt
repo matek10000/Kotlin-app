@@ -1,8 +1,8 @@
-package pl.wsei.pam.lab01.data
+package pl.wsei.pam.lab06.data.database
 
 import android.content.Context
 import androidx.room.*
-import kotlinx.coroutines.InternalCoroutinesApi
+import pl.wsei.pam.lab06.data.model.TodoTask
 
 @Database(entities = [TodoTask::class], version = 1)
 @TypeConverters(LocalDateConverter::class)
