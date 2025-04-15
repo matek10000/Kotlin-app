@@ -1,7 +1,6 @@
-// pl/wsei/pam/lab06/viewmodel/AppViewModelProvider.kt
 package pl.wsei.pam.lab06.viewmodel
 
-import androidx.lifecycle.ViewModelProvider
+import android.app.Application
 import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.APPLICATION_KEY
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
@@ -12,22 +11,19 @@ import pl.wsei.pam.lab06.data.viewmodel.FormViewModel
 import pl.wsei.pam.lab06.data.viewmodel.ListViewModel
 
 object AppViewModelProvider {
-    val Factory: ViewModelProvider.Factory = viewModelFactory {
+    val Factory: Factory = viewModelFactory {
         initializer {
-            val container = todoApplication().container
+            val app = (this[APPLICATION_KEY] as Application) as TodoApplication
             FormViewModel(
-                repository = container.todoRepository,
-                dateProvider = container.currentDateProvider
+                repository = app.container.todoRepository,
+                dateProvider = app.container.currentDateProvider
             )
         }
         initializer {
+            val app = (this[APPLICATION_KEY] as Application) as TodoApplication
             ListViewModel(
-                repository = todoApplication().container.todoRepository
+                repository = app.container.todoRepository
             )
         }
     }
 }
-
-
-fun CreationExtras.todoApplication(): TodoApplication =
-    (this[APPLICATION_KEY] as TodoApplication)

@@ -16,6 +16,11 @@ class TodoRepository : TodoTaskRepository {
         )
     )
 
+    override suspend fun getAllNow(): List<TodoTask> {
+        return tasks.value
+    }
+
+
     override fun getAllAsStream(): Flow<List<TodoTask>> = tasks.asStateFlow()
 
     override fun getItemAsStream(id: Int): Flow<TodoTask?> {

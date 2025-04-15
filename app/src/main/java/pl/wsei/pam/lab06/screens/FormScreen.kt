@@ -33,9 +33,10 @@ fun FormScreen(
                 route = "list",
                 onSaveClick = {
                     coroutineScope.launch {
-                        viewModel.save {
+                        viewModel.save(context = navController.context) {
                             navController.navigate("list")
                         }
+
                     }
                 }
             )

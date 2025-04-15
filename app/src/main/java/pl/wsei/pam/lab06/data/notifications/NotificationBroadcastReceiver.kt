@@ -5,11 +5,8 @@ import android.content.Context
 import android.content.Intent
 import android.app.NotificationManager
 import androidx.core.app.NotificationCompat
+import pl.wsei.pam.lab06.*
 import pl.wsei.pam.lab01.R
-import pl.wsei.pam.lab06.channelID
-import pl.wsei.pam.lab06.notificationID
-import pl.wsei.pam.lab06.titleExtra
-import pl.wsei.pam.lab06.messageExtra
 
 class NotificationBroadcastReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent?) {

@@ -36,7 +36,9 @@
 
         <!-- Receiver dla alarmów -->
         <receiver
-            android:name="pl.wsei.pam.lab06.notifications.NotificationBroadcastReceiver"
-            android:enabled="true" />
+            android:name="pl.wsei.pam.lab06.NotificationBroadcastReceiver"
+            android:enabled="true"
+            android:exported="true" />
+
     </application>
 </manifest>

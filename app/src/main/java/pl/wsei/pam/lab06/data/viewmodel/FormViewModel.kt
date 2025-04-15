@@ -1,15 +1,18 @@
 package pl.wsei.pam.lab06.data.viewmodel
 
+import android.content.Context
 import androidx.compose.runtime.*
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import pl.wsei.pam.lab06.data.*
+import pl.wsei.pam.lab06.TodoApplication
 import pl.wsei.pam.lab06.data.provider.CurrentDateProvider
 import pl.wsei.pam.lab06.data.repository.TodoTaskRepository
 import pl.wsei.pam.lab06.data.state.TodoTaskForm
 import pl.wsei.pam.lab06.data.state.TodoTaskUiState
 import pl.wsei.pam.lab06.data.state.toTodoTask
+import pl.wsei.pam.lab06.notifications.updateAlarmForNearestTask
 
 class FormViewModel(
     private val repository: TodoTaskRepository,
@@ -33,12 +36,15 @@ class FormViewModel(
         return uiState.title.isNotBlank() && deadlineDate.isAfter(dateProvider.currentDate)
     }
 
-    fun save(onSaved: () -> Unit) {
+    fun save(context: Context, onSaved: () -> Unit) {
         if (!todoTaskUiState.isValid) return
         viewModelScope.launch {
             repository.insertItem(todoTaskUiState.todoTask.toTodoTask())
-            onSaved()
+
+            val tasks = repository.getAllNow()
+            updateAlarmForNearestTask(context, tasks)
+
+            onSaved() // ← wywoływane na głównym wątku, jest OK
         }
     }
 }
-
