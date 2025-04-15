@@ -1,10 +1,12 @@
 package pl.wsei.pam.lab06.screens
 
+import android.content.Context
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
@@ -23,6 +25,7 @@ fun FormScreen(
 ) {
     val coroutineScope = rememberCoroutineScope()
     val uiState = viewModel.todoTaskUiState
+    val context = LocalContext.current
 
     Scaffold(
         topBar = {
@@ -33,10 +36,9 @@ fun FormScreen(
                 route = "list",
                 onSaveClick = {
                     coroutineScope.launch {
-                        viewModel.save(context = navController.context) {
+                        viewModel.save(context) {
                             navController.navigate("list")
                         }
-
                     }
                 }
             )

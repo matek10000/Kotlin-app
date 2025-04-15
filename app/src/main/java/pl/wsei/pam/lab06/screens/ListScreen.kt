@@ -11,6 +11,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import kotlinx.coroutines.launch
 import pl.wsei.pam.lab06.components.AppTopBar
 import pl.wsei.pam.lab06.components.TodoListItem
 import pl.wsei.pam.lab06.viewmodel.AppViewModelProvider
@@ -22,6 +23,7 @@ fun ListScreen(
     viewModel: ListViewModel = viewModel(factory = AppViewModelProvider.Factory)
 ) {
     val listUiState by viewModel.listUiState.collectAsState()
+    val coroutineScope = rememberCoroutineScope()
 
     Scaffold(
         topBar = {
@@ -44,7 +46,14 @@ fun ListScreen(
                 .padding(16.dp)
         ) {
             items(items = listUiState.items, key = { it.id }) { task ->
-                TodoListItem(item = task)
+                TodoListItem(
+                    item = task,
+                    onStatusToggle = { updatedTask ->
+                        coroutineScope.launch {
+                            viewModel.updateItem(updatedTask)
+                        }
+                    }
+                )
             }
         }
     }

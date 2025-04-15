@@ -1,6 +1,7 @@
 package pl.wsei.pam.lab06.components
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.*
@@ -15,8 +16,12 @@ import pl.wsei.pam.lab06.data.model.TodoTask
 import java.time.format.DateTimeFormatter
 
 @Composable
-fun TodoListItem(item: TodoTask, modifier: Modifier = Modifier) {
-    val statusColor = if (item.isDone) Color(0xFF2E7D32) else Color(0xFFB71C1C) // Zielony lub czerwony
+fun TodoListItem(
+    item: TodoTask,
+    onStatusToggle: (TodoTask) -> Unit,
+    modifier: Modifier = Modifier
+) {
+    val statusColor = if (item.isDone) Color(0xFF2E7D32) else Color(0xFFB71C1C)
     val statusText = if (item.isDone) "✓" else "X"
 
     ElevatedCard(
@@ -62,7 +67,8 @@ fun TodoListItem(item: TodoTask, modifier: Modifier = Modifier) {
                 Box(
                     modifier = Modifier
                         .size(40.dp)
-                        .background(statusColor, shape = CircleShape),
+                        .background(statusColor, shape = CircleShape)
+                        .clickable { onStatusToggle(item.copy(isDone = !item.isDone)) },
                     contentAlignment = Alignment.Center
                 ) {
                     Text(
