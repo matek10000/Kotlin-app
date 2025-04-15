@@ -1,8 +1,12 @@
 package pl.wsei.pam.lab06
 
+import android.Manifest
+import android.app.AlarmManager
 import android.app.NotificationChannel
 import android.app.NotificationManager
+import android.app.PendingIntent
 import android.content.Context
+import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -17,15 +21,17 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
-import com.google.accompanist.permissions.rememberPermissionState
-import android.Manifest
 import com.google.accompanist.permissions.isGranted
+import com.google.accompanist.permissions.rememberPermissionState
+import pl.wsei.pam.lab06.notifications.NotificationBroadcastReceiver
 import pl.wsei.pam.lab06.screens.FormScreen
 import pl.wsei.pam.lab06.screens.ListScreen
 import pl.wsei.pam.lab06.ui.theme.Lab01Theme
 
 const val notificationID = 121
 const val channelID = "Lab06 channel"
+const val titleExtra = "title"
+const val messageExtra = "message"
 
 class Lab06Activity : ComponentActivity() {
 
@@ -34,7 +40,10 @@ class Lab06Activity : ComponentActivity() {
         super.onCreate(savedInstanceState)
 
         createNotificationChannel()
-        (application as TodoApplication).container // just init container
+        (application as TodoApplication).container // Inicjalizacja kontenera
+
+        // PRZYKŁADOWE ustawienie alarmu po 2 sekundach od uruchomienia
+        scheduleAlarm(System.currentTimeMillis() + 2000)
 
         setContent {
             Lab01Theme {
@@ -57,6 +66,27 @@ class Lab06Activity : ComponentActivity() {
                 getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
             notificationManager.createNotificationChannel(channel)
         }
+    }
+
+    fun scheduleAlarm(time: Long) {
+        val intent = Intent(applicationContext, NotificationBroadcastReceiver::class.java).apply {
+            putExtra(titleExtra, "Deadline")
+            putExtra(messageExtra, "Zbliża się termin zakończenia zadania")
+        }
+
+        val pendingIntent = PendingIntent.getBroadcast(
+            applicationContext,
+            notificationID,
+            intent,
+            PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
+        )
+
+        val alarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
+        alarmManager.setExactAndAllowWhileIdle(
+            AlarmManager.RTC_WAKEUP,
+            time,
+            pendingIntent
+        )
     }
 }
 
