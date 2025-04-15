@@ -6,7 +6,7 @@ import java.time.LocalDate
 
 @Entity(tableName = "tasks")
 data class TodoTask(
-    @PrimaryKey val id: Int = nextId++,
+    @PrimaryKey(autoGenerate = true) val id: Int = 0,
     val title: String,
     val deadline: LocalDate,
     val isDone: Boolean,

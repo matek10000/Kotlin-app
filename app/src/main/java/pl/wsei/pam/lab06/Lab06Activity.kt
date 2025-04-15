@@ -26,6 +26,7 @@ import pl.wsei.pam.lab06.data.model.TodoTask
 import pl.wsei.pam.lab06.notifications.NotificationBroadcastReceiver
 import pl.wsei.pam.lab06.screens.FormScreen
 import pl.wsei.pam.lab06.screens.ListScreen
+import pl.wsei.pam.lab06.screens.SettingsScreen
 import pl.wsei.pam.lab06.ui.theme.Lab01Theme
 import java.time.ZoneId
 
@@ -140,5 +141,6 @@ fun MainScreen() {
     NavHost(navController = navController, startDestination = "list") {
         composable("list") { ListScreen(navController) }
         composable("form") { FormScreen(navController) }
+        composable("settings") { SettingsScreen(navController) }
     }
 }
